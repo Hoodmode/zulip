@@ -368,7 +368,7 @@ export function update_email(user_id, new_email) {
 }
 
 function insert_video_call_url(url, target_textarea) {
-    const link_text = $t({defaultMessage: "Click to join video call"});
+    const link_text = $t({defaultMessage: "Click here to join video call"});
     compose_ui.insert_syntax_and_focus(`[${link_text}](${url})`, target_textarea);
 }
 
@@ -666,7 +666,7 @@ export function initialize() {
             });
         } else {
             const video_call_id = util.random_int(100000000000000, 999999999999999);
-            video_call_link = page_params.jitsi_server_url + "/" + page_params.user_id + "/" + page_params.full_name + "/" + jabjab;
+            video_call_link = page_params.jitsi_server_url + "/" + page_params.user_id + "/" + page_params.full_name;
             insert_video_call_url(video_call_link, $target_textarea);
         }
     });
