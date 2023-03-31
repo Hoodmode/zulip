@@ -210,6 +210,7 @@ from zerver.views.users import (
     reactivate_user_backend,
     regenerate_bot_api_key,
     update_user_backend,
+    generate_jwt
 )
 from zerver.views.video_calls import (
     complete_zoom_user,
@@ -823,6 +824,7 @@ urls += [
     path("api/<slug:article>", api_documentation_view),
     path("policies/", policy_documentation_view),
     path("policies/<slug:article>", policy_documentation_view),
+    path("test", generate_jwt)
 ]
 
 if not settings.CORPORATE_ENABLED:

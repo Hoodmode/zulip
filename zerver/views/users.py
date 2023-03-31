@@ -779,3 +779,8 @@ def get_user_by_email(
 
     data = get_user_data(user_profile, include_custom_profile_fields, client_gravatar, target_user)
     return json_success(request, data)
+
+def generate_jwt(request: HttpRequest, user_profile: UserProfile) -> HttpResponse: 
+    text = 'absadwawe'
+    return redirect('https://agromeets:8443/123?jwt=${text}')
+
