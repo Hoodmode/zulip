@@ -792,6 +792,6 @@ def generate_jwt(request: HttpRequest, user_profile: UserProfile) -> HttpRespons
     result: Dict[str, Any] = raw_user_data[user_profile.id]
     encoded_jwt = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
     result['jitsi_jwt'] = encoded_jwt
-
-    return json_success(request, data=result)
+    return redirect('https://meet.jit.si/9/Desdemona?jwt=${encoded_jwt}')
+    # return json_success(request, data=result)
 
