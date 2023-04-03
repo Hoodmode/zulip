@@ -824,7 +824,7 @@ urls += [
     path("api/<slug:article>", api_documentation_view),
     path("policies/", policy_documentation_view),
     path("policies/<slug:article>", policy_documentation_view),
-    path("test", generate_jwt)
+    rest_path("test/", GET=generate_jwt)
 ]
 
 if not settings.CORPORATE_ENABLED:

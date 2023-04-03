@@ -780,7 +780,21 @@ def get_user_by_email(
     data = get_user_data(user_profile, include_custom_profile_fields, client_gravatar, target_user)
     return json_success(request, data)
 
-def generate_jwt(request: HttpRequest, user_profile: UserProfile) -> HttpResponse: 
-    result = get_profile_backend(request, user_profile)
+def generate_jwt(request: HttpRequest, user_profile: UserProfile) -> HttpResponse:
+    raw_user_data = get_raw_user_data(
+        user_profile.realm,
+        user_profile,
+        target_user=user_profile,
+        client_gravatar=False,
+        user_avatar_url_field_optional=False,
+    )
+    result: Dict[str, Any] = raw_user_data[user_profile.id]
+
+    result["max_message_id"] = -1
+
+    messages = Message.objects.filter(usermessage__user_profile=user_profile).order_by("-id")[:1]
+    if messages:
+        result["max_message_id"] = messages[0].id
+
     return json_success(request, data=result)
 
