@@ -7,7 +7,7 @@ from django.core.files.uploadedfile import UploadedFile
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.utils.translation import gettext as _
-from jwt.jwt import JWT
+import jwt
 
 from zerver.actions.bots import (
     do_change_bot_owner,
@@ -790,7 +790,7 @@ def generate_jwt(request: HttpRequest, user_profile: UserProfile) -> HttpRespons
         user_avatar_url_field_optional=False,
     )
     result: Dict[str, Any] = raw_user_data[user_profile.id]
-    encoded_jwt = JWT.encode({'DATA': 'TEST'}, 'secret', alg='HS256')
+    encoded_jwt = jwt.JWT.encode({'DATA': 'TEST'}, 'secret', alg='HS256')
     result['jitsi_jwt'] = encoded_jwt
 
     return json_success(request, data=result)
