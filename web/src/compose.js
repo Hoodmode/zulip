@@ -666,8 +666,9 @@ export function initialize() {
             });
         } else {
             const video_call_id = util.random_int(100000000000000, 999999999999999);
-            video_call_link = page_params.jitsi_server_url + "/" + page_params.user_id + "/" + page_params.full_name;
-            insert_video_call_url(video_call_link, $target_textarea);
+            const hardcoded = `https://agromeets.ru/api/v1/calls/jitsi/connect?room=${video_call_id}`
+            // video_call_link = page_params.jitsi_server_url + "/" + page_params.user_id + "/" + page_params.full_name;
+            insert_video_call_url(hardcoded, $target_textarea);
         }
     });
 

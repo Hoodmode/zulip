@@ -7,7 +7,7 @@ from django.core.files.uploadedfile import UploadedFile
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.utils.translation import gettext as _
-import jwt
+# import jwt
 
 from zerver.actions.bots import (
     do_change_bot_owner,
@@ -781,33 +781,33 @@ def get_user_by_email(
     data = get_user_data(user_profile, include_custom_profile_fields, client_gravatar, target_user)
     return json_success(request, data)
 
-def generate_jwt(request: HttpRequest, user_profile: UserProfile) -> HttpResponse:
-    raw_user_data = get_raw_user_data(
-        user_profile.realm,
-        user_profile,
-        target_user=user_profile,
-        client_gravatar=False,
-        user_avatar_url_field_optional=False,
-    )
-    result: Dict[str, Any] = raw_user_data[user_profile.id]
-    payload = {
-        "context": {
-            "user": {
-                "name": "<user>",
-                "id": "<user>@gmail.com",
-                "email": "<user@gmail.com>",
-                "avatar": "<link to user's avatar>" 
-            }
-        },
-        "aud": "jitsi",
-        "iss": "jI81AhV6",
-        "sub": "agromeets.ru:8443",
-        "room": "*",
-        "exp": 98753496345768,
-        "moderator": True
-    }
-    encoded_jwt = jwt.encode(payload, "5yVZd6P1294Ur7rUJ96I2sWeM67527QD", algorithm="HS256")
-    result['jitsi_jwt'] = encoded_jwt
-    # return redirect(f'https://meet.jit.si/9/Desdemona?jwt={encoded_jwt}')
-    return json_success(request, data=result)
+# def generate_jwt(request: HttpRequest, user_profile: UserProfile) -> HttpResponse:
+#     raw_user_data = get_raw_user_data(
+#         user_profile.realm,
+#         user_profile,
+#         target_user=user_profile,
+#         client_gravatar=False,
+#         user_avatar_url_field_optional=False,
+#     )
+#     result: Dict[str, Any] = raw_user_data[user_profile.id]
+#     payload = {
+#         "context": {
+#             "user": {
+#                 "name": f"{result['full_name']}",
+#                 "id": f"{result['user_id']}",
+#                 "email": f"{result['email']}",
+#                 "avatar": f"{result['avatar_url']}" 
+#             }
+#         },
+#         "aud": "jitsi",
+#         "iss": "jI81AhV6",
+#         "sub": "agromeets.ru",
+#         "room": "*",
+#         "exp": 98753496345768,
+#         "moderator": True
+#     }
+#     encoded_jwt = jwt.encode(payload, "5yVZd6P1294Ur7rUJ96I2sWeM67527QD", algorithm="HS256")
+#     result['jitsi_jwt'] = encoded_jwt
+#     # return redirect(f'https://meet.jit.si/9/Desdemona?jwt={encoded_jwt}')
+#     return json_success(request, data=result)
 

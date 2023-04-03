@@ -209,8 +209,7 @@ from zerver.views.users import (
     patch_bot_backend,
     reactivate_user_backend,
     regenerate_bot_api_key,
-    update_user_backend,
-    generate_jwt
+    update_user_backend
 )
 from zerver.views.video_calls import (
     complete_zoom_user,
@@ -219,6 +218,7 @@ from zerver.views.video_calls import (
     join_bigbluebutton,
     make_zoom_video_call,
     register_zoom_user,
+    connect_to_jitsi_with_jwt
 )
 from zerver.views.zephyr import webathena_kerberos_login
 from zproject import dev_urls
@@ -503,6 +503,8 @@ v1_api_and_json_patterns = [
         "report/unnarrow_times",
         POST=(report_unnarrow_times, {"allow_anonymous_user_web", "intentionally_undocumented"}),
     ),
+    # Used to connect to jitsi with generated JWT
+    rest_path("calls/jitsi/connect", GET=connect_to_jitsi_with_jwt),
     # Used to generate a Zoom video call URL
     rest_path("calls/zoom/create", POST=make_zoom_video_call),
     # Used to generate a BigBlueButton video call URL
@@ -510,6 +512,7 @@ v1_api_and_json_patterns = [
     # export/realm -> zerver.views.realm_export
     rest_path("export/realm", POST=export_realm, GET=get_realm_exports),
     rest_path("export/realm/<int:export_id>", DELETE=delete_realm_export),
+
 ]
 
 integrations_view = IntegrationView.as_view()
@@ -823,8 +826,7 @@ urls += [
     path("api/", api_documentation_view),
     path("api/<slug:article>", api_documentation_view),
     path("policies/", policy_documentation_view),
-    path("policies/<slug:article>", policy_documentation_view),
-    rest_path("test/", GET=generate_jwt)
+    path("policies/<slug:article>", policy_documentation_view)
 ]
 
 if not settings.CORPORATE_ENABLED:
