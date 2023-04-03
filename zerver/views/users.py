@@ -790,8 +790,24 @@ def generate_jwt(request: HttpRequest, user_profile: UserProfile) -> HttpRespons
         user_avatar_url_field_optional=False,
     )
     result: Dict[str, Any] = raw_user_data[user_profile.id]
-    encoded_jwt = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
+    payload = {
+        "context": {
+            "user": {
+                "name": "<user>",
+                "id": "<user>@gmail.com",
+                "email": "<user@gmail.com>",
+                "avatar": "<link to user's avatar>" 
+            }
+        },
+        "aud": "jitsi",
+        "iss": "jI81AhV6",
+        "sub": "agromeets.ru:8443",
+        "room": "*",
+        "exp": 98753496345768,
+        "moderator": True
+    }
+    encoded_jwt = jwt.encode(payload, "5yVZd6P1294Ur7rUJ96I2sWeM67527QD", algorithm="HS256")
     result['jitsi_jwt'] = encoded_jwt
-    return redirect('https://meet.jit.si/9/Desdemona?jwt=${encoded_jwt}')
-    # return json_success(request, data=result)
+    # return redirect(f'https://meet.jit.si/9/Desdemona?jwt={encoded_jwt}')
+    return json_success(request, data=result)
 
