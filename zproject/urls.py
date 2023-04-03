@@ -504,7 +504,6 @@ v1_api_and_json_patterns = [
         POST=(report_unnarrow_times, {"allow_anonymous_user_web", "intentionally_undocumented"}),
     ),
     # Used to connect to jitsi with generated JWT
-    rest_path("calls/jitsi/connect", GET=connect_to_jitsi_with_jwt),
     # Used to generate a Zoom video call URL
     rest_path("calls/zoom/create", POST=make_zoom_video_call),
     # Used to generate a BigBlueButton video call URL
@@ -514,6 +513,8 @@ v1_api_and_json_patterns = [
     rest_path("export/realm/<int:export_id>", DELETE=delete_realm_export),
 
 ]
+
+urls += [rest_path("calls/jitsi/connect", GET=connect_to_jitsi_with_jwt)]
 
 integrations_view = IntegrationView.as_view()
 
