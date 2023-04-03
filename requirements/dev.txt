@@ -467,7 +467,6 @@ cryptography==39.0.2 \
     --hash=sha256:ffd394c7896ed7821a6d13b24657c6a34b6e2650bd84ae063cf11ccffa4f1a97
     # via
     #   -r requirements/common.in
-    #   jwt
     #   moto
     #   pyopenssl
     #   scrapy
@@ -884,9 +883,6 @@ jsonschema-spec==0.1.3 \
 jsx-lexer==2.0.0 \
     --hash=sha256:bff51c2a2faa2c682cbc9a0f360b8c65e4153eb1df06988e8dad34373d3f9995 \
     --hash=sha256:ca22483ced80a92e45fa1855da7cf99309852c0637842a79a759e10ea57b904d
-    # via -r requirements/common.in
-jwt==1.3.1 \
-    --hash=sha256:61c9170f92e736b530655e75374681d4fcca9cfa8763ab42be57353b2b203494
     # via -r requirements/common.in
 lazy-object-proxy==1.9.0 \
     --hash=sha256:09763491ce220c0299688940f8dc2c5d05fd1f45af1e42e636b2e8b2303e4382 \

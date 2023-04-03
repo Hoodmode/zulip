@@ -4,7 +4,7 @@
 # See requirements/README.md for more detail.
 
 # Jsonwebtoken
-jwt
+PyJWT
 
 # Django itself
 Django[argon2]==4.1.*
