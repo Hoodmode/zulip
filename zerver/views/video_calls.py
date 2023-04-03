@@ -310,4 +310,4 @@ def connect_to_jitsi_with_jwt(request: HttpRequest, user: UserProfile, room: str
     # encoded_jwt = jwt.encode(payload, "5yVZd6P1294Ur7rUJ96I2sWeM67527QD", algorithm="HS256")
     # result['jitsi_jwt'] = encoded_jwt
     # return redirect(f'https://meet.jit.si/{room}?jwt={encoded_jwt}')
-    return json_success(request, data=user)
+    return json_success(request, data={'user': user.email})
