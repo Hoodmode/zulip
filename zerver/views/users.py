@@ -790,7 +790,7 @@ def generate_jwt(request: HttpRequest, user_profile: UserProfile) -> HttpRespons
         user_avatar_url_field_optional=False,
     )
     result: Dict[str, Any] = raw_user_data[user_profile.id]
-    encoded_jwt = jwt.JWT.encode({'DATA': 'TEST'}, 'secret', alg='HS256')
+    encoded_jwt = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
     result['jitsi_jwt'] = encoded_jwt
 
     return json_success(request, data=result)
