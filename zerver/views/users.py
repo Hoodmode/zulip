@@ -7,6 +7,7 @@ from django.core.files.uploadedfile import UploadedFile
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.utils.translation import gettext as _
+from jwt.jwt import JWT
 
 from zerver.actions.bots import (
     do_change_bot_owner,
@@ -781,21 +782,16 @@ def get_user_by_email(
     return json_success(request, data)
 
 def generate_jwt(request: HttpRequest, user_profile: UserProfile) -> HttpResponse:
-    result = get_profile_backend(request, user_profile)
-    # raw_user_data = get_raw_user_data(
-    #     user_profile.realm,
-    #     user_profile,
-    #     target_user=user_profile,
-    #     client_gravatar=False,
-    #     user_avatar_url_field_optional=False,
-    # )
-    # result: Dict[str, Any] = raw_user_data[user_profile.id]
-
-    # result["max_message_id"] = -1
-
-    # messages = Message.objects.filter(usermessage__user_profile=user_profile).order_by("-id")[:1]
-    # if messages:
-    #     result["max_message_id"] = messages[0].id
+    raw_user_data = get_raw_user_data(
+        user_profile.realm,
+        user_profile,
+        target_user=user_profile,
+        client_gravatar=False,
+        user_avatar_url_field_optional=False,
+    )
+    result: Dict[str, Any] = raw_user_data[user_profile.id]
+    encoded_jwt = JWT.encode({'DATA': 'TEST'}, 'secret', alg='HS256')
+    result['jitsi_jwt'] = encoded_jwt
 
     return json_success(request, data=result)
 
