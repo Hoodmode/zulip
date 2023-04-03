@@ -34,8 +34,8 @@ from zerver.lib.url_encoding import append_url_query_string
 from zerver.lib.validator import check_dict, check_string
 from zerver.models import UserProfile, get_realm
 
-# from zulip.zerver.lib.users import get_raw_user_data
-# from typing import Any, Dict
+from zerver.lib.users import get_raw_user_data
+from typing import Any, Dict
 import jwt
 
 
@@ -281,30 +281,30 @@ def join_bigbluebutton(request: HttpRequest, bigbluebutton: str = REQ()) -> Http
     return redirect(append_url_query_string(redirect_url_base, "checksum=" + checksum))
 
 @has_request_variables
-def connect_to_jitsi_with_jwt(request: HttpRequest, user: UserProfile, room: str = REQ()) -> HttpResponse:
-    # raw_user_data = get_raw_user_data(
-    #     user_profile.realm,
-    #     user_profile,
-    #     target_user=user_profile,
-    #     client_gravatar=False,
-    #     user_avatar_url_field_optional=False,
-    # )
-    # result: Dict[str, Any] = raw_user_data[user_profile.id]
+def connect_to_jitsi_with_jwt(request: HttpRequest, user_profile: UserProfile, room: str = REQ()) -> HttpResponse:
+    raw_user_data = get_raw_user_data(
+        user_profile.realm,
+        user_profile,
+        target_user=user_profile,
+        client_gravatar=False,
+        user_avatar_url_field_optional=False,
+    )
+    result: Dict[str, Any] = raw_user_data[user_profile.id]
 
     payload = {
         "context": {
             "user": {
-                "name": f"{user.full_name}",
-                "id": f"{user.uuid}",
-                "email": f"{user.email}",
-                "avatar": f"{user.avatar_source}" 
+                "name": f"{result['full_name']}",
+                "id": f"{result['user_id']}",
+                "email": f"{result['email']}",
+                "avatar": f"{result['avatar_url']}" 
             }
         },
         "aud": "jitsi",
         "iss": "jI81AhV6",
         "sub": "agromeets.ru",
         "room": room,
-        "exp": 98753496345768,
+        "exp": 1500006923,
         "moderator": True
     }
     encoded_jwt = jwt.encode(payload, "5yVZd6P1294Ur7rUJ96I2sWeM67527QD", algorithm="HS256")
