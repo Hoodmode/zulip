@@ -291,23 +291,23 @@ def connect_to_jitsi_with_jwt(request: HttpRequest, user: UserProfile, room: str
     # )
     # result: Dict[str, Any] = raw_user_data[user_profile.id]
 
-    # payload = {
-    #     "context": {
-    #         "user": {
-    #             "name": f"{result['full_name']}",
-    #             "id": f"{result['user_id']}",
-    #             "email": f"{result['email']}",
-    #             "avatar": f"{result['avatar_url']}" 
-    #         }
-    #     },
-    #     "aud": "jitsi",
-    #     "iss": "jI81AhV6",
-    #     "sub": "agromeets.ru",
-    #     "room": room,
-    #     "exp": 98753496345768,
-    #     "moderator": True
-    # }
-    # encoded_jwt = jwt.encode(payload, "5yVZd6P1294Ur7rUJ96I2sWeM67527QD", algorithm="HS256")
+    payload = {
+        "context": {
+            "user": {
+                "name": f"{user.full_name}",
+                "id": f"{user.uuid}",
+                "email": f"{user.email}",
+                "avatar": f"{user.avatar_source}" 
+            }
+        },
+        "aud": "jitsi",
+        "iss": "jI81AhV6",
+        "sub": "agromeets.ru",
+        "room": room,
+        "exp": 98753496345768,
+        "moderator": True
+    }
+    encoded_jwt = jwt.encode(payload, "5yVZd6P1294Ur7rUJ96I2sWeM67527QD", algorithm="HS256")
     # result['jitsi_jwt'] = encoded_jwt
-    # return redirect(f'https://meet.jit.si/{room}?jwt={encoded_jwt}')
-    return json_success(request, data={'user': user.email})
+    return redirect(f'https://meet.jit.si/{room}?jwt={encoded_jwt}')
+    # return json_success(request, data={'user': user.email})
