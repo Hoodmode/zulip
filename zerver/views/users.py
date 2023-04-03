@@ -781,6 +781,6 @@ def get_user_by_email(
     return json_success(request, data)
 
 def generate_jwt(request: HttpRequest, user_profile: UserProfile) -> HttpResponse: 
-    text = 'absadwawe'
-    return redirect('https://agromeets:8443/123?jwt=${text}')
+    result = get_profile_backend(request, user_profile)
+    return json_success(request, data=result)
 
