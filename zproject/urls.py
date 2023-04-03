@@ -514,7 +514,6 @@ v1_api_and_json_patterns = [
 
 ]
 
-urls += [rest_path("calls/jitsi/connect", GET=connect_to_jitsi_with_jwt)]
 
 integrations_view = IntegrationView.as_view()
 
@@ -639,6 +638,7 @@ urls += [
     path("api/v1/", include(v1_api_and_json_patterns)),
     path("json/", include(v1_api_and_json_patterns)),
 ]
+urls += [rest_path("calls/jitsi/connect", GET=connect_to_jitsi_with_jwt)]
 
 # user_uploads -> zerver.views.upload.serve_file_backend
 #
