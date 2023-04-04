@@ -38,6 +38,7 @@ from zerver.lib.users import get_raw_user_data
 from typing import Any, Dict
 import jwt
 import datetime
+from zproject.config import get_secret
 
 class VideoCallSession(OutgoingSession):
     def __init__(self) -> None:
@@ -306,8 +307,10 @@ def connect_to_jitsi_with_jwt(request: HttpRequest, user_profile: UserProfile, r
         "room": room,
         "exp": int((datetime.datetime.utcnow() + datetime.timedelta(days=2)).timestamp()),
         "nbf": int(datetime.datetime.utcnow().timestamp()),
-        "moderator": True
+        "moderator": True,
+        "secret": get_secret("jitsi_jwt_key")
     }
-    encoded_jwt = jwt.encode(payload, "5yVZd6P1294Ur7rUJ96I2sWeM67527QD", algorithm="HS256")
-    # return redirect(f'https://agromeets.ru:8443/{room}?jwt={encoded_jwt}')
-    return redirect(f'https://meet.jit.si/{room}?jwt={encoded_jwt}')
+    
+    encoded_jwt = jwt.encode(payload, get_secret("jitsi_jwt_key"), algorithm="HS256")
+    return redirect(f'https://agromeets.ru:8443/{room}?jwt={encoded_jwt}')
+    # return redirect(f'https://meet.jit.si/{room}?jwt={encoded_jwt}')
