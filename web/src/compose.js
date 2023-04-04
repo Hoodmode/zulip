@@ -668,7 +668,7 @@ export function initialize() {
             const video_call_id = util.random_int(100000000000000, 999999999999999);
             // video_call_link = page_params.jitsi_server_url + "/" + page_params.user_id + "/" + page_params.full_name;
             // const hardcoded = `https://agromeets.ru/calls/jitsi/connect?room=${video_call_id}`
-            const hardcoded = `http://localhost:9991/calls/jitsi/connect?room=${video_call_id}&moderator=False`
+            const hardcoded = `http://localhost:9991/calls/jitsi/connect?room=${video_call_id}`
             insert_video_call_url(hardcoded, $target_textarea);
             window.open(
                 window.location.protocol + "//" + window.location.host + `/calls/jitsi/connect?room=${video_call_id}&moderator=True`,

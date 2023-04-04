@@ -307,7 +307,7 @@ def connect_to_jitsi_with_jwt(request: HttpRequest, user_profile: UserProfile, r
         "room": room,
         "exp": int((datetime.datetime.utcnow() + datetime.timedelta(days=2)).timestamp()),
         "nbf": int(datetime.datetime.utcnow().timestamp()),
-        "moderator": moderator
+        "moderator": True if (moderator & moderator == True) else False
     }
     
     # encoded_jwt = jwt.encode(payload, get_secret("jitsi_jwt_key"), algorithm="HS256")
