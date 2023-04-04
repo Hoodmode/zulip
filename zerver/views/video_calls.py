@@ -37,7 +37,7 @@ from zerver.models import UserProfile, get_realm
 from zerver.lib.users import get_raw_user_data
 from typing import Any, Dict
 import jwt
-
+import datetime
 
 class VideoCallSession(OutgoingSession):
     def __init__(self) -> None:
@@ -289,25 +289,25 @@ def connect_to_jitsi_with_jwt(request: HttpRequest, user_profile: UserProfile, r
         client_gravatar=False,
         user_avatar_url_field_optional=False,
     )
-    result: Dict[str, Any] = raw_user_data[user_profile.id]
+    user_data: Dict[str, Any] = raw_user_data[user_profile.id]
 
     payload = {
         "context": {
             "user": {
-                "name": f"{result['full_name']}",
-                "id": f"{result['user_id']}",
-                "email": f"{result['email']}",
-                "avatar": f"{result['avatar_url']}" 
+                "name": f"{user_data['full_name']}",
+                "id": f"{user_data['user_id']}",
+                "email": f"{user_data['email']}",
+                "avatar": f"{user_data['avatar_url']}" 
             }
         },
         "aud": "jitsi",
         "iss": "jI81AhV6",
         "sub": "agromeets",
         "room": room,
-        "exp": 1500006923,
+        "exp": int((datetime.datetime.utcnow() + datetime.timedelta(days=2)).timestamp()),
+        "nbf": int(datetime.datetime.utcnow().timestamp()),
         "moderator": True
     }
     encoded_jwt = jwt.encode(payload, "5yVZd6P1294Ur7rUJ96I2sWeM67527QD", algorithm="HS256")
-    # result['jitsi_jwt'] = encoded_jwt
-    return redirect(f'https://agromeets.ru:8443/{room}?jwt={encoded_jwt}')
-    # return json_success(request, data={'user': user.email})
+    # return redirect(f'https://agromeets.ru:8443/{room}?jwt={encoded_jwt}')
+    return redirect(f'https://meet.jit.si/{room}?jwt={encoded_jwt}')
