@@ -308,8 +308,7 @@ def connect_to_jitsi_with_jwt(request: HttpRequest, user_profile: UserProfile, r
         "exp": int((datetime.datetime.utcnow() + datetime.timedelta(days=2)).timestamp()),
         "nbf": int(datetime.datetime.utcnow().timestamp())
     }
-    
     encoded_jwt = jwt.encode(payload, get_secret("jitsi_jwt_key"), algorithm="HS256")
-    return redirect(f'https://agromeets.ru:8443/{room}?jwt={encoded_jwt}')
+    return redirect(f'{settings.JITSI_SERVER_URL}/{room}?jwt={encoded_jwt}')
     # encoded_jwt = jwt.encode(payload, 'secret', algorithm="HS256")
     # return redirect(f'https://meet.jit.si/{room}?jwt={encoded_jwt}')
