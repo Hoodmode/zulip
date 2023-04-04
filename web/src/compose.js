@@ -670,6 +670,12 @@ export function initialize() {
             // const hardcoded = `https://agromeets.ru/calls/jitsi/connect?room=${video_call_id}`
             const hardcoded = `http://localhost:9991/calls/jitsi/connect?room=${video_call_id}`
             insert_video_call_url(hardcoded, $target_textarea);
+            window.open(
+                window.location.protocol + "//" + window.location.host + `/calls/jitsi/connect?room=${video_call_id}&moderator=true`,
+                "_blank",
+                "width=800,height=500,noopener,noreferrer",
+            );
+
             send_message();
         }
     });
