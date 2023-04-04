@@ -281,6 +281,7 @@ def join_bigbluebutton(request: HttpRequest, bigbluebutton: str = REQ()) -> Http
     )
     return redirect(append_url_query_string(redirect_url_base, "checksum=" + checksum))
 
+@has_request_variables
 def connect_to_jitsi_with_jwt(request: HttpRequest, user_profile: UserProfile, room: str = REQ(), moderator: bool = REQ()) -> HttpResponse:
     raw_user_data = get_raw_user_data(
         user_profile.realm,
@@ -306,7 +307,7 @@ def connect_to_jitsi_with_jwt(request: HttpRequest, user_profile: UserProfile, r
         "room": room,
         "exp": int((datetime.datetime.utcnow() + datetime.timedelta(days=2)).timestamp()),
         "nbf": int(datetime.datetime.utcnow().timestamp()),
-        "moderator": moderator if moderator else False
+        "moderator": moderator
     }
     
     # encoded_jwt = jwt.encode(payload, get_secret("jitsi_jwt_key"), algorithm="HS256")

@@ -503,7 +503,6 @@ v1_api_and_json_patterns = [
         "report/unnarrow_times",
         POST=(report_unnarrow_times, {"allow_anonymous_user_web", "intentionally_undocumented"}),
     ),
-    # Used to connect to jitsi with generated JWT
     # Used to generate a Zoom video call URL
     rest_path("calls/zoom/create", POST=make_zoom_video_call),
     # Used to generate a BigBlueButton video call URL
