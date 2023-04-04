@@ -302,7 +302,7 @@ def connect_to_jitsi_with_jwt(request: HttpRequest, user_profile: UserProfile, r
             }
         },
         "aud": "jitsi",
-        "iss": "jI81AhV6",
+        "iss": settings.JITSI_APP_ID,
         "sub": "agromeets",
         "room": room,
         "exp": int((datetime.datetime.utcnow() + datetime.timedelta(days=2)).timestamp()),
